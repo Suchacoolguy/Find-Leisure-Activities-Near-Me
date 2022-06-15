@@ -1,4 +1,5 @@
 package com.teamdev;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -14,14 +15,11 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-
-
 public class DOMParser {
 
-	public ArrayList<String> domParser(String x, String y, String word, String induty)
+	public ArrayList<Camp> domParser(String x, String y, String word, String induty)
 			throws ParserConfigurationException, SAXException, IOException {
 		// XML 문서 파싱
-		ArrayList<String> arrlist = new ArrayList<String>();
 		ArrayList<Camp> group = new ArrayList<Camp>();
 
 		CampingData cd = new CampingData();
@@ -36,81 +34,109 @@ public class DOMParser {
 		// System.out.println("Root Element : " + d.getDocumentElement().getNodeName());
 
 		// root의 속성
-		NodeList childeren = d.getDocumentElement().getChildNodes();
-		// System.out.println(childeren.getLength());
+
+		NodeList childeren = d.getElementsByTagName("item");
+
+		String facltNm = "";
+		String addr1 = "";
+		String addr2 = "";
+		String induty2 = "";
+		String homepage = "";
+		String tel = "";
+		String mapX ="";
+		String mapY = "";
+
 		for (int i = 0; i < childeren.getLength(); i++) {
 			Node node = childeren.item(i);
 			Element ele = (Element) node;
-			String nodeName = ele.getNodeName();
-			// System.out.println("node name: " + nodeName);
-			if (nodeName == "body") {
-				NodeList bodyChilderen = ele.getChildNodes();
-				// System.out.println(bodyChilderen.getLength());
-				for (int j = 0; j < bodyChilderen.getLength(); j++) {
-					Node bodyNode = bodyChilderen.item(j);
-					Element bodyEle = (Element) bodyNode;
-					String bodyNodeName = bodyEle.getNodeName();
-					// System.out.println("node name: " + bodyNodeName);
-					if (bodyNodeName == "items") {
-						NodeList itemChilderen = bodyEle.getChildNodes();
-						for (int temp = 0; temp < itemChilderen.getLength(); temp++) {
-							String a = bodyEle.getElementsByTagName("facltNm").item(temp).getTextContent();
-							String b = bodyEle.getElementsByTagName("addr1").item(temp).getTextContent();
-							String c = bodyEle.getElementsByTagName("induty").item(temp).getTextContent();
 
-							if (a.contains(word)) {
-								if (c.contains(induty)) {
-									Camp newCamp = new Camp(
-											bodyEle.getElementsByTagName("facltNm").item(temp).getTextContent(),
-											bodyEle.getElementsByTagName("addr1").item(temp).getTextContent(),
-											bodyEle.getElementsByTagName("induty").item(temp).getTextContent());
-									group.add(newCamp);
-									arrlist.add("시설명: " + a + "\n주소: " + b + "\n업종: " + c + "\n");
-								} else if (induty.equals("전체")) {
-									Camp newCamp = new Camp(
-											bodyEle.getElementsByTagName("facltNm").item(temp).getTextContent(),
-											bodyEle.getElementsByTagName("addr1").item(temp).getTextContent(),
-											bodyEle.getElementsByTagName("induty").item(temp).getTextContent());
-									group.add(newCamp);
-									arrlist.add("시설명: " + a + "\n주소: " + b + "\n업종: " + c + "\n");
-								}
-							} else if(word.equals("없음")) {
-								if (c.contains(induty)) {
-									Camp newCamp = new Camp(
-											bodyEle.getElementsByTagName("facltNm").item(temp).getTextContent(),
-											bodyEle.getElementsByTagName("addr1").item(temp).getTextContent(),
-											bodyEle.getElementsByTagName("induty").item(temp).getTextContent());
-									group.add(newCamp);
-									arrlist.add("시설명: " + a + "\n주소: " + b + "\n업종: " + c + "\n");
-								} else if (induty.equals("전체")) {
-									Camp newCamp = new Camp(
-											bodyEle.getElementsByTagName("facltNm").item(temp).getTextContent(),
-											bodyEle.getElementsByTagName("addr1").item(temp).getTextContent(),
-											bodyEle.getElementsByTagName("induty").item(temp).getTextContent());
-									group.add(newCamp);
-									arrlist.add("시설명: " + a + "\n주소: " + b + "\n업종: " + c + "\n");
-								}
-							}
-						}
+			try {
+				facltNm = ele.getElementsByTagName("facltNm").item(0).getTextContent();
+			} catch (Exception e) {
+				facltNm = "";
+			}
+			try {
+				induty2 = ele.getElementsByTagName("induty").item(0).getTextContent();
+			} catch (Exception e) {
+				induty2 ="";
+			}
+			try {
+				addr1 = ele.getElementsByTagName("addr1").item(0).getTextContent();
+			} catch (Exception e) {
+				addr1 ="";
+			}
+			try {
+				addr2 = ele.getElementsByTagName("addr2").item(0).getTextContent();
+			} catch (Exception e) {
+				addr2 = "";
+			}
+			try {
+				homepage = ele.getElementsByTagName("homepage").item(0).getTextContent();
+			} catch (Exception e) {
+				homepage = "";
+			}
+			try {
+				tel = ele.getElementsByTagName("tel").item(0).getTextContent();
+			} catch (Exception e) {
+				tel = "";
+			}
+			try {
+				mapX= ele.getElementsByTagName("mapX").item(0).getTextContent();
+			} catch (Exception e) {
+				mapX = "";
+			}
+			try {
+				mapY= ele.getElementsByTagName("mapY").item(0).getTextContent();
+			} catch (Exception e) {
+				mapY = "";
+			}
 
-					}
+			if (facltNm.contains(word)) {
+				if (induty2.contains(induty)) {
+					Camp newCamp = new Camp(facltNm,  addr1, addr2, induty2, tel, homepage, mapX, mapY);
+					group.add(newCamp);
+				} else if (induty.equals("전체")) {
+					Camp newCamp = new Camp(facltNm,  addr1, addr2, induty2, tel, homepage, mapX, mapY);
+					group.add(newCamp);
+				}
+			} else if (word.equals("없음")) {
+				if (induty2.contains(induty)) {
+					Camp newCamp = new Camp(facltNm,  addr1, addr2, induty2, tel, homepage, mapX, mapY);
+					group.add(newCamp);
+				} else if (induty.equals("전체")) {
+					Camp newCamp = new Camp(facltNm,  addr1, addr2, induty2, tel, homepage, mapX, mapY);
+					group.add(newCamp);
 				}
 			}
+
+			System.out.println("시설명: " + facltNm + "\n주소: " + addr1 + " " + addr2 + "\n업종: " + induty2 + "\n전화번호: "
+					+ tel + "\n홈페이지: " + homepage + "\nMapX.Y: "+ mapX +" "+mapY +"\n");
 		}
-		// System.out.println(group);
-		return (arrlist);
+
+
+		return group;
 	}
 }
 
 class Camp {
 	String facltNm;
 	String addr1;
+	String addr2;
 	String type;
+	String tel;
+	String homepage;
+	String mapX;
+	String mapY;
 
-	Camp(String a, String b, String c) {
-		facltNm = a;
-		addr1 = b;
-		type = c;
+	Camp(String facltNm, String addr1, String addr2, String type, String tel, String homepage, String x, String y) {
+		this.facltNm = facltNm;
+		this.addr1 = addr1;
+		this.addr2 = addr2;
+		this.type = type;
+		this.tel = tel;
+		this.homepage = homepage;
+		mapX = x;
+		mapY = y;
 	}
 
 	public String getFacltNm() {
@@ -123,6 +149,22 @@ class Camp {
 
 	public String getType() {
 		return type;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public String getHomepage() {
+		return homepage;
+	}
+
+	public String getMapX(){
+		return mapX;
+	}
+
+	public String getMapY(){
+		return mapY;
 	}
 
 }

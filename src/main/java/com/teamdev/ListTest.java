@@ -14,7 +14,7 @@ public class ListTest extends JFrame {
 
 	Display display;
 
-	ArrayList<String> cd_item = new ArrayList<String>();
+	ArrayList<Camp> cd_item = new ArrayList<Camp>();
 	ArrayList<String> pd_item = new ArrayList<String>();
 
 	String si;
@@ -27,6 +27,8 @@ public class ListTest extends JFrame {
 	Vector<String> v2 = new Vector<>(10);
 	List campList = new List();
 	List performList = new List();
+	DOMParser dp;
+
 	protected String[] xy;
 
 	public ListTest(Display display) {
@@ -34,7 +36,7 @@ public class ListTest extends JFrame {
 	}
 
 	public void dateLoad() {
-		DOMParser dp = new DOMParser();
+		dp = new DOMParser();
 		DOMParserPD dpPD = new DOMParserPD();
 
 		si = display.selectedDoCode;
@@ -66,9 +68,8 @@ public class ListTest extends JFrame {
 		}
 
 		System.out.println("------");
-		for (String str : cd_item) {
-			campList.add(str);
-			System.out.println(str);
+		for (Camp str : cd_item) {
+			// System.out.println(str);
 		}
 
 		System.out.println("------");
