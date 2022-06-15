@@ -1,12 +1,9 @@
 
 package com.teamdev;
 
-import java.awt.List;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Vector;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
@@ -15,19 +12,17 @@ public class ListTest extends JFrame {
 	Display display;
 
 	ArrayList<Camp> cd_item = new ArrayList<Camp>();
-	ArrayList<String> pd_item = new ArrayList<String>();
+	ArrayList<Perform> pd_item = new ArrayList<Perform>();
+	ArrayList<PerformInfo>pdinfo_item = new ArrayList<PerformInfo>();
+	ArrayList<PerformPos>pdpos_item = new ArrayList<PerformPos>();
 
 	String si;
 	String gngu = "";
 
-	JList<Camp> listCD;
-	JList<Perform> listPD;
-
-	Vector<String> v = new Vector<>(10);
-	Vector<String> v2 = new Vector<>(10);
-	List campList = new List();
-	List performList = new List();
 	DOMParser dp;
+	DOMParserPD dpPD;
+	DOMParserPD_info dpPDInfo;
+	DOMParserPD_pos dpPDPos;
 
 	protected String[] xy;
 
@@ -35,11 +30,8 @@ public class ListTest extends JFrame {
 		this.display = display;
 	}
 
-	public void dateLoad() {
+	public void dataLoad_Camp(){
 		dp = new DOMParser();
-		DOMParserPD dpPD = new DOMParserPD();
-
-		si = display.selectedDoCode;
 
 		try {
 			cd_item = dp.domParser(xy[0], xy[1],display.searchWord, display.campType);
@@ -54,8 +46,13 @@ public class ListTest extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void dateLoad_Perform() {
+		dpPD = new DOMParserPD();
+		si = display.selectedDoCode;
 		try {
-			pd_item = dpPD.domParserPD(si, gngu);
+			pd_item = dpPD.domParserPD(si, gngu, display.searchWord, display.performType);
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -66,18 +63,36 @@ public class ListTest extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		System.out.println("------");
-		for (Camp str : cd_item) {
-			// System.out.println(str);
+	}
+	public void dateLoad_PerformInfo() {
+		dpPDInfo = new DOMParserPD_info();
+		try {
+			pdinfo_item = dpPDInfo.domParserPD(display.performId);
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+	}
 
-		System.out.println("------");
-		for (String str : pd_item) {
-			performList.add(str);
-			System.out.println(str);
+	public void dateLoad_PerformPos() {
+		dpPDPos = new DOMParserPD_pos();
+		try {
+			pdpos_item = dpPDPos.domParserPD(display.fcltyID);
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		System.out.println("------");
-
 	}
 }

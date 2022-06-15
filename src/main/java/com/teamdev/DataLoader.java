@@ -392,4 +392,18 @@ public class DataLoader {
                                 "카라반" };
                 return type;
         }
+
+        public String[] getPerformType(){
+                String[] performType = {
+                        "전체",
+                        "연극",
+                        "뮤지컬",
+                        "클래식",
+                        "무용",
+                        "국악",
+                        "복합",
+                        "오페라"
+                };
+                return performType;
+        }
 }

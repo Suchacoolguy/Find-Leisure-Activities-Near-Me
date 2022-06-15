@@ -20,7 +20,7 @@ public class DOMParser {
 	public ArrayList<Camp> domParser(String x, String y, String word, String induty)
 			throws ParserConfigurationException, SAXException, IOException {
 		// XML 문서 파싱
-		ArrayList<Camp> group = new ArrayList<Camp>();
+		ArrayList<Camp> groupCamp = new ArrayList<Camp>();
 
 		CampingData cd = new CampingData();
 		String xml = cd.campingData(x, y);
@@ -94,27 +94,26 @@ public class DOMParser {
 			if (facltNm.contains(word)) {
 				if (induty2.contains(induty)) {
 					Camp newCamp = new Camp(facltNm,  addr1, addr2, induty2, tel, homepage, mapX, mapY);
-					group.add(newCamp);
+					groupCamp.add(newCamp);
 				} else if (induty.equals("전체")) {
 					Camp newCamp = new Camp(facltNm,  addr1, addr2, induty2, tel, homepage, mapX, mapY);
-					group.add(newCamp);
+					groupCamp.add(newCamp);
 				}
 			} else if (word.equals("없음")) {
 				if (induty2.contains(induty)) {
 					Camp newCamp = new Camp(facltNm,  addr1, addr2, induty2, tel, homepage, mapX, mapY);
-					group.add(newCamp);
+					groupCamp.add(newCamp);
 				} else if (induty.equals("전체")) {
 					Camp newCamp = new Camp(facltNm,  addr1, addr2, induty2, tel, homepage, mapX, mapY);
-					group.add(newCamp);
+					groupCamp.add(newCamp);
 				}
 			}
 
-			System.out.println("시설명: " + facltNm + "\n주소: " + addr1 + " " + addr2 + "\n업종: " + induty2 + "\n전화번호: "
-					+ tel + "\n홈페이지: " + homepage + "\nMapX.Y: "+ mapX +" "+mapY +"\n");
+			// System.out.println("시설명: " + facltNm + "\n주소: " + addr1 + " " + addr2 + "\n업종: " + induty2 + "\n전화번호: "
+			// 		+ tel + "\n홈페이지: " + homepage + "\nMapX.Y: "+ mapX +" "+mapY +"\n");
 		}
 
-
-		return group;
+		return groupCamp;
 	}
 }
 

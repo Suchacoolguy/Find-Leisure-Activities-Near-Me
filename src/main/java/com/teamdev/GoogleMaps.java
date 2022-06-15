@@ -32,7 +32,7 @@ public class GoogleMaps extends JPanel {
             BrowserView view = BrowserView.newInstance(browser);
 
             this.add(view);
-            this.setPreferredSize(new Dimension(1500, 500));
+            this.setPreferredSize(new Dimension(500, 500));
             this.setBackground(Color.WHITE);
             String url = setDestination(lat, lon);
 
