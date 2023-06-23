@@ -37,7 +37,7 @@ public class KakaoAPI {
             URL Url = new URL(url);
 
             HttpsURLConnection conn = (HttpsURLConnection) Url.openConnection();
-            String auth = "KakaoAK " + "70d41ac654d6a0d273382aad14f63afc";
+            String auth = "KakaoAK " + "<My API Key>";
             conn.setRequestMethod("GET");
             conn.setRequestProperty("X-Requested-With", "curl");
             conn.setRequestProperty("Authorization", auth);
